@@ -12,7 +12,7 @@
     <tbody>
         @foreach($data_buku as $buku)
             <tr>
-                <td>{{ $buku->id }}</td>
+                <td>{{ ++$no }}</td>
                 <td>{{ $buku->judul }}</td>
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ "Rp ".number_format($buku->harga, 2, ',', '-') }}</td>
@@ -21,3 +21,6 @@
         @endforeach
     </tbody>
 </table>
+
+<p>{{ $totalbuku }}</p>
+<p>{{ $total }}</p>
