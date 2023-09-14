@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\MencobaController;
+use App\Http\Controllers\BukuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,6 +21,8 @@ Route::get('/', function () {
 Route::get('/index', function () {
     return view('index');
 });
+
+Route::get('/buku', [BukuController::class, 'index']);
 
 Route::get('/boom', [MencobaController::class, 'boomesport']);
 
