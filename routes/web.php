@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\MencobaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +17,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/index', function () {
+    return view('index');
+});
+
+Route::get('/boom', [MencobaController::class, 'boomesport']);
+
 Route::get('/about', function () {
     return view('about', [
         "name" => "lala",
         "email" => "lala@gmail.com"
     ]);
 });
+
