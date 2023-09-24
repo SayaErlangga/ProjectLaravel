@@ -33,3 +33,13 @@ Route::get('/about', function () {
     ]);
 });
 
+// Create Buku
+Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+
+// Remove Buku
+Route::post('buku/delete/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+
+// Edit Buku
+Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
+Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
