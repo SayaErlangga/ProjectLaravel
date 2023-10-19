@@ -9,6 +9,11 @@
     <input type="text" name="kata" class="form-control" placeholder="Cari ..." style="width: 30%;
     display: inline; margin-top: 10px; margin-bottom: 10px; float: right;">
 </form>
+@if(count($data_buku))
+    <div class="alert alert-success">Ditemukan <strong>{{count($data_buku)}}</strong> data dengan kata: <strong>{{ $cari }}</strong></div>
+@else
+    <div class="alert alert-warning"><h4>Data {{ $cari }} tidak ditemukan</h4><a href="/buku" class="btn btn-warning">Kembali</a></div>
+@endif
 <table class="table table-striped">
     <thead>
         <tr>
@@ -42,5 +47,6 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-center">{{ $data_buku->links() }}</div>
+<a href="/buku">Kembali</a>
 <p>Total Buku : {{ $totalbuku }}</p>
 <p>Total Harga : {{ "Rp ".number_format($total, 2, ',', '.') }}</p>

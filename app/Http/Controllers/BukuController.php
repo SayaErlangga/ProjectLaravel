@@ -12,8 +12,9 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $data_buku = Buku::all();
-        $no = 0;
+        $batas = 5;
+        $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
+        $no = $batas * ($data_buku->currentPage() - 1);
         $totalbuku = Buku::count('id');
         $total = Buku::sum('harga');
 
@@ -33,13 +34,20 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
+        $this -> validate($request,[
+            'judul' => 'required|string',
+            'penulis' => 'required|string|max:30',
+            'harga' => 'required|numeric',
+            'tgl_terbit' => 'required|date'
+        ]);
+        
         Buku::create([
-            'judul' => $request->nama,
+            'judul' => $request->judul,
             'penulis' => $request->penulis,
             'harga' => $request->harga,
             'tgl_terbit' => $request->tgl_terbit
         ]);
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Data Buku Berhasil di Simpan');
     }
 
     /**
@@ -71,7 +79,7 @@ class BukuController extends Controller
             'harga' => $request->harga,
             'tgl_terbit' => $request->tgl_terbit
         ]);
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Data Buku Berhasil di Edit');
     }
 
     /**
@@ -81,6 +89,19 @@ class BukuController extends Controller
     {
         $buku = Buku::find($id);
         $buku->delete();
-        return redirect('/buku');
+        return redirect('/buku')->with('pesan', 'Data Buku Berhasil di Hapus');
+    }
+
+    public function search(Request $request)
+    {
+        $batas = 5;
+        $cari = $request->kata;
+        $data_buku = Buku::where('judul','like','%'.$cari.'%')->orwhere('penulis','like','%'.$cari.'%') 
+            ->paginate($batas);
+        $totalbuku = $data_buku->count();
+        $no = $batas * ($data_buku->currentPage() - 1);
+        $total = Buku::sum('harga');
+
+        return view('search', compact('data_buku', 'no', 'total', 'totalbuku','cari'));
     }
 }
