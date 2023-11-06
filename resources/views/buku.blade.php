@@ -16,7 +16,9 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tanggal Terbit</th>
+                @if(Auth::check() && Auth::user() -> level == 'admin')
                 <th colspan="2">Aksi</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -27,6 +29,7 @@
                     <td>{{ $buku->penulis }}</td>
                     <td>{{ "Rp ".number_format($buku->harga, 2, ',', '.') }}</td>
                     <td>{{ $buku->tgl_terbit }}</td>
+                    @if(Auth::check() && Auth::user() -> level == 'admin')
                     <td>
                     <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                         @csrf 
@@ -36,6 +39,7 @@
                     <td>
                         <a href="{{ route('buku.edit', $buku->id) }}">Edit Buku</a>
                     </td>
+                    @endif
                 </tr>
             @endforeach
         </tbody>

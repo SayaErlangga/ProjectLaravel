@@ -38,6 +38,13 @@
 
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+        <!-- Select Level -->
+        <!-- <div class="mt-4">
+        <select name="level" id="level">
+            <option value="user" id="user">user</option>
+            <option value="admin" id="admin">admin</option>
+        </select>
+        </div> -->
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
