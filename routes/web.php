@@ -20,6 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [BukuController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/list-buku', [BukuController::class, 'listbuku'])->name('list-buku');
+Route::get('/detail-buku/{id}', [BukuController::class, 'galbuku'])->name('galeri.buku');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

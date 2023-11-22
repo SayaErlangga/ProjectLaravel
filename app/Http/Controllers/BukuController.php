@@ -208,4 +208,23 @@ class BukuController extends Controller
 
         return redirect()->back()->with('pesan', 'Gambar Galeri Berhasil dihapus');
     }
+
+    public function listbuku()
+    {
+        $batas = 5;
+        $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
+        $no = $batas * ($data_buku->currentPage() - 1);
+        $totalbuku = Buku::count('id');
+        $total = Buku::sum('harga');
+
+        return view('buku.listbuku', compact('data_buku', 'no', 'total', 'totalbuku'));
+    }
+
+    public function galbuku($id){
+        $buku = Buku::find($id);
+        $batas = 5;
+        $data_buku = Gallery::orderBy('id', 'desc')->paginate($batas);
+        $no = $batas * ($data_buku->currentPage() - 1);
+        return view('galeribuku', compact('buku'));
+    }
 }

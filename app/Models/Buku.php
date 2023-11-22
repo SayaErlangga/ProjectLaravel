@@ -9,9 +9,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Buku extends Model
 {
     protected $table = 'buku';
-    protected $fillable = ['id', 'judul', 'penulis', 'harga', 'tgl_terbit', 'created_at', 'updated_at', 'filepath', 'filename'];
+    protected $fillable = ['id', 'judul', 'penulis', 'harga', 'tgl_terbit', 'created_at', 'updated_at', 'filepath', 'filename','buku_seo'];
     protected $dates = ['tgl_terbit'];
     public function galleries(): HasMany
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function photos(): HasMany
     {
         return $this->hasMany(Gallery::class);
     }
