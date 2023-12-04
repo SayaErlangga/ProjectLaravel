@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Buku;
 use App\Models\Gallery;
+use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 
@@ -227,4 +229,55 @@ class BukuController extends Controller
         $no = $batas * ($data_buku->currentPage() - 1);
         return view('galeribuku', compact('buku'));
     }
+
+    public function rating(Request $request, string $id){
+        $rating = Rating::create([
+            'rating' => $request->rating,
+            'buku_id' => $id
+        ]);
+        return redirect()->back()->with('pesan', 'Rating Berhasil Ditambahkan');
+    }
+
+    public function addToFavorite($id)
+    {
+        $user = Auth::user();
+    
+        // Ensure the user is logged in
+        if ($user) {
+            $buku = Buku::find($id);
+    
+            // Check if the book exists
+            if ($buku) {
+                // Check if the book is already in the user's favorites
+                if (!$user->favoriteBooks->contains($buku->id)) {
+                    // Attach the book to the user's favorites
+                    $user->favoriteBooks()->attach($buku);
+    
+                    return redirect()->back()->with('success', 'Buku berhasil ditambahkan ke daftar favorit.');
+                } else {
+                    return redirect()->back()->with('error', 'Buku sudah ada di daftar favorit Anda.');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Buku tidak ditemukan.');
+            }
+        }
+    
+        return redirect()->back()->with('error', 'Gagal menambahkan buku ke daftar favorit.');
+    }
+    
+
+    public function myFavorite()
+    {
+        $user = Auth::user();
+
+        // Ensure the user is logged in
+        if ($user) {
+            $favoriteBooks = $user->favoriteBooks;
+
+            return view('myfavorite', compact('favoriteBooks'));
+        }
+
+        return redirect()->route('login')->with('error', 'Anda harus login untuk melihat buku favorit.');
+    }
+
 }

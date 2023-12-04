@@ -20,14 +20,19 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [BukuController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/list-buku', [BukuController::class, 'listbuku'])->name('list-buku');
-Route::get('/detail-buku/{id}', [BukuController::class, 'galbuku'])->name('galeri.buku');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
+    Route::post('/buku/rating/{id}', [BukuController::class, 'rating'])->name('buku.rating');
+    Route::get('/list-buku', [BukuController::class, 'listbuku'])->name('list-buku');
+    Route::get('/detail-buku/{id}', [BukuController::class, 'galbuku'])->name('galeri.buku');
+    Route::get('/buku/myfavorite', [BukuController::class, 'myfavorite'])->name('buku-favorit');
+    Route::post('/buku/add-to-favorite/{id}', [BukuController::class, 'addToFavorite'])->name('buku.addToFavorite')->middleware('auth');
+
 
     Route::middleware('admin')->group(function () {
         // Create Buku

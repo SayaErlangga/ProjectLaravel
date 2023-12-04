@@ -15,9 +15,8 @@ class Buku extends Model
     {
         return $this->hasMany(Gallery::class);
     }
-
-    public function photos(): HasMany
+    public function rating(): HasMany
     {
-        return $this->hasMany(Gallery::class);
+        return $this->hasMany(Rating::class, 'buku_id');
     }
 }
